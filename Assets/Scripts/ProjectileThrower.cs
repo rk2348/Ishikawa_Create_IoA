@@ -13,12 +13,14 @@ public class ProjectileThrower : MonoBehaviour
     [Header("投げる設定")]
     public float throwSpeed = 10f;        // 投射初速度
     public float throwAngle = 45f;        // 投げる角度（度数法）
-    public float interval = 3f;           // 投げる間隔（秒）
+    public float interval = 4f;           // 投げる間隔（秒）
 
     private void Start()
     {
         // 自動投げ開始
         StartCoroutine(ThrowLoop());
+        // スピードアップ開始
+        StartCoroutine(SpeedUpLoop());
     }
 
     private IEnumerator ThrowLoop()
@@ -27,6 +29,16 @@ public class ProjectileThrower : MonoBehaviour
         {
             Throw();
             yield return new WaitForSeconds(interval);
+        }
+    }
+
+    private IEnumerator SpeedUpLoop()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(10f);
+            interval /= 1.5f;
+            Debug.Log("スピードアップ！ 現在の速度: " + interval);
         }
     }
 
