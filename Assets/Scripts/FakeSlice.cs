@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerBladeSlice : MonoBehaviour
+public class FakeSlice : MonoBehaviour
 {
     [Header("切断後のプレハブ")]
     public GameObject slicedPartAPrefab;
@@ -73,6 +73,12 @@ public class PlayerBladeSlice : MonoBehaviour
             audioSource.volume = sliceVolume;
             audioSource.Play();
             Destroy(audioObject, sliceSound.length); // 再生終了後に破棄
+        }
+
+        // スコア加算
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.AddScore(1);
         }
 
         // 元オブジェクト非表示
