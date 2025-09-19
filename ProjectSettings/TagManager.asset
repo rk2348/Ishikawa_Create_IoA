@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Anchor
   - Blade
+  - Ground
   layers:
   - Default
   - TransparentFX
