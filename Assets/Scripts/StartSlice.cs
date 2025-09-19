@@ -104,46 +104,26 @@ public class StartSlice : MonoBehaviour
         }
     }
 
-    private IEnumerator LoadSceneWithDelay(string sceneName, float minDelay)
+    private IEnumerator LoadSceneWithDelay(string sceneName, float delay)
     {
-        float elapsed = 0f;
+        yield return new WaitForSeconds(delay);
 
-        // ロードUIを表示
         if (loadingUI != null)
             loadingUI.SetActive(true);
 
-        // シーン非同期ロード開始
         AsyncOperation async = SceneManager.LoadSceneAsync(sceneName);
-        async.allowSceneActivation = false; // 自動切り替えを停止
 
         if (slider != null)
-            slider.value = 0f;
-
-        // ロード中と最小待機時間の両方を待つ
-        while (!async.isDone || elapsed < minDelay)
         {
-            elapsed += Time.deltaTime;
-
-            // スライダー更新（ロード進捗と最低時間の進行度の最大値を表示）
-            if (slider != null)
+            while (!async.isDone)
             {
-                float progress = Mathf.Clamp01(async.progress / 0.9f); // async.progressは0.9で止まる
-                slider.value = Mathf.Max(progress, elapsed / minDelay);
+                slider.value = async.progress;
+                yield return null;
             }
-
-            // 3秒以上経ってロードも完了していれば終了
-            if (async.progress >= 0.9f && elapsed >= minDelay)
-                break;
-
-            yield return null;
         }
-
-        // ロード完了を許可
-        async.allowSceneActivation = true;
-
-        // スライダーを確実に100%に
-        if (slider != null)
-            slider.value = 1f;
+        else
+        {
+            yield return async;
+        }
     }
-
 }
