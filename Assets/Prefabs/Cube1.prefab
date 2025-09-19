@@ -126,6 +126,8 @@ MonoBehaviour:
   forceMultiplier: 2
   upwardForce: 0.5
   rotationAngle: 30
+  sliceSound: {fileID: 8300000, guid: a3f8163ba90794141b6a260b1b3cc2b8, type: 3}
+  sliceVolume: 1
 --- !u!114 &-5396797047856256149
 MonoBehaviour:
   m_ObjectHideFlags: 0

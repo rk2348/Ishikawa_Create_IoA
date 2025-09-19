@@ -14,7 +14,11 @@ public class PlayerBladeSlice : MonoBehaviour
     public float upwardForce = 0.5f;
 
     [Header("生成パーツの回転")]
-    public float rotationAngle = 30f; // 斬撃方向に応じて回転する角度
+    public float rotationAngle = 30f;
+
+    [Header("切断音")]
+    public AudioClip sliceSound; // Inspectorで設定
+    public float sliceVolume = 1f;
 
     private MeshRenderer meshRenderer;
     private Collider objectCollider;
@@ -57,6 +61,18 @@ public class PlayerBladeSlice : MonoBehaviour
             GameObject partB = Instantiate(slicedPartBPrefab, transform.position, transform.rotation * rotationB);
             Rigidbody rbB = partB.AddComponent<Rigidbody>();
             rbB.AddForce((-bladeDirection + Vector3.up * upwardForce) * forceMultiplier, ForceMode.Impulse);
+        }
+
+        // 切断音を再生（最後まで鳴らす）
+        if (sliceSound != null)
+        {
+            GameObject audioObject = new GameObject("SliceSound");
+            audioObject.transform.position = transform.position;
+            AudioSource audioSource = audioObject.AddComponent<AudioSource>();
+            audioSource.clip = sliceSound;
+            audioSource.volume = sliceVolume;
+            audioSource.Play();
+            Destroy(audioObject, sliceSound.length); // 再生終了後に破棄
         }
 
         // 元オブジェクト非表示
