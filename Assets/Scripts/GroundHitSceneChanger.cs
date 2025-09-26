@@ -10,6 +10,8 @@ public class GroundHitSceneChanger : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("衝突: " + collision.gameObject.name + " (tag: " + collision.gameObject.tag + ")");
+
         if (collision.gameObject.CompareTag(groundTag))
         {
             hitCount++;
@@ -17,11 +19,12 @@ public class GroundHitSceneChanger : MonoBehaviour
 
             if (hitCount >= 3)
             {
-                // コルーチンを呼ぶ
-                StartCoroutine(LoadSceneAfterDelay(0));
+                Debug.Log("シーン遷移を開始します: " + nextSceneName);
+                SceneManager.LoadScene(nextSceneName);
             }
         }
     }
+
 
     private IEnumerator LoadSceneAfterDelay(float delay)
     {
