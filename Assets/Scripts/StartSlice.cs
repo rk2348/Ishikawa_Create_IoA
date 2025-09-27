@@ -25,12 +25,7 @@ public class StartSlice : MonoBehaviour
 
     [Header("シーン移動")]
     public string nextSceneName;   // 遷移先シーン
-    public float sceneDelay = 3f;  // 既存の遅延（必要なら使用）
-
-    [Header("タイトルロゴ表示")]
-    public GameObject titleLogo;    // Canvas上のロゴオブジェクト（Inspectorで設定）
-    public float titleDuration = 2f; // ロゴ表示時間（秒）
-    public float titleFadeTime = 0.5f; // フェード時間（0でフェード無し）
+    public float sceneDelay = 3f;  // 3秒後にロード
 
     [Header("ロードUI")]
     public GameObject loadingUI;   // InspectorでCanvas等を設定
@@ -39,7 +34,6 @@ public class StartSlice : MonoBehaviour
     private MeshRenderer meshRenderer;
     private Collider objectCollider;
     private bool sliced = false;
-    private bool isLoading = false; // 多重遷移防止フラグ
 
     private void Start()
     {
@@ -50,7 +44,6 @@ public class StartSlice : MonoBehaviour
         if (objectCollider != null) objectCollider.enabled = true;
 
         if (loadingUI != null) loadingUI.SetActive(false);
-        if (titleLogo != null) titleLogo.SetActive(false);
     }
 
     void OnCollisionEnter(Collision collision)
@@ -70,8 +63,7 @@ public class StartSlice : MonoBehaviour
         if (slicedPartAPrefab != null)
         {
             GameObject partA = Instantiate(slicedPartAPrefab, transform.position, transform.rotation * rotationA);
-            Rigidbody rbA = partA.GetComponent<Rigidbody>();
-            if (rbA == null) rbA = partA.AddComponent<Rigidbody>();
+            Rigidbody rbA = partA.AddComponent<Rigidbody>();
             rbA.AddForce((bladeDirection + Vector3.up * upwardForce) * forceMultiplier, ForceMode.Impulse);
         }
 
@@ -79,8 +71,7 @@ public class StartSlice : MonoBehaviour
         if (slicedPartBPrefab != null)
         {
             GameObject partB = Instantiate(slicedPartBPrefab, transform.position, transform.rotation * rotationB);
-            Rigidbody rbB = partB.GetComponent<Rigidbody>();
-            if (rbB == null) rbB = partB.AddComponent<Rigidbody>();
+            Rigidbody rbB = partB.AddComponent<Rigidbody>();
             rbB.AddForce((-bladeDirection + Vector3.up * upwardForce) * forceMultiplier, ForceMode.Impulse);
         }
 
@@ -106,8 +97,8 @@ public class StartSlice : MonoBehaviour
         if (meshRenderer != null) meshRenderer.enabled = false;
         if (objectCollider != null) objectCollider.enabled = false;
 
-        // ロード開始（多重防止）
-        if (!string.IsNullOrEmpty(nextSceneName) && !isLoading)
+        // 3秒後にロード開始
+        if (!string.IsNullOrEmpty(nextSceneName))
         {
             StartCoroutine(LoadSceneWithDelay(nextSceneName, sceneDelay));
         }
@@ -115,64 +106,18 @@ public class StartSlice : MonoBehaviour
 
     private IEnumerator LoadSceneWithDelay(string sceneName, float delay)
     {
-        isLoading = true;
+        yield return new WaitForSeconds(delay);
 
-        // 既存の任意遅延を使う場合
-        if (delay > 0f)
-            yield return new WaitForSeconds(delay);
-
-        // --- タイトルロゴ表示（フェード対応） ---
-        if (titleLogo != null)
-        {
-            CanvasGroup cg = titleLogo.GetComponent<CanvasGroup>();
-            if (cg != null) cg.alpha = 0f;
-            titleLogo.SetActive(true);
-
-            // フェードイン
-            if (cg != null && titleFadeTime > 0f)
-            {
-                float t = 0f;
-                while (t < titleFadeTime)
-                {
-                    t += Time.deltaTime;
-                    cg.alpha = Mathf.Clamp01(t / titleFadeTime);
-                    yield return null;
-                }
-                cg.alpha = 1f;
-            }
-
-            // 表示時間
-            yield return new WaitForSeconds(titleDuration);
-
-            // フェードアウト
-            if (cg != null && titleFadeTime > 0f)
-            {
-                float t = 0f;
-                while (t < titleFadeTime)
-                {
-                    t += Time.deltaTime;
-                    cg.alpha = Mathf.Clamp01(1f - (t / titleFadeTime));
-                    yield return null;
-                }
-                cg.alpha = 0f;
-            }
-
-            titleLogo.SetActive(false);
-        }
-
-        // --- ロードUI を表示して非同期読み込み ---
-        if (loadingUI != null) loadingUI.SetActive(true);
+        if (loadingUI != null)
+            loadingUI.SetActive(true);
 
         AsyncOperation async = SceneManager.LoadSceneAsync(sceneName);
-        async.allowSceneActivation = true;
 
         if (slider != null)
         {
             while (!async.isDone)
             {
-                // async.progress は 0.0～0.9 の範囲。見た目で 0..1 に正規化する。
-                float progress = Mathf.Clamp01(async.progress / 0.9f);
-                slider.value = progress;
+                slider.value = async.progress;
                 yield return null;
             }
         }
@@ -180,7 +125,5 @@ public class StartSlice : MonoBehaviour
         {
             yield return async;
         }
-
-        isLoading = false;
     }
 }
