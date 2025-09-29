@@ -15,10 +15,22 @@ public class ProjectileThrower : MonoBehaviour
     public float throwAngle = 45f;        // 投げる角度（度数法）
     public float interval = 4f;           // 投げる間隔（秒）
 
+    [Header("開始ディレイ設定")]
+    public float startDelay = 3f;         // n秒後に投げ開始（インスペクターで変更可）
+
     private void Start()
     {
+        // n秒待ってから投げ開始
+        StartCoroutine(StartWithDelay());
+    }
+
+    private IEnumerator StartWithDelay()
+    {
+        yield return new WaitForSeconds(startDelay);
+
         // 自動投げ開始
         StartCoroutine(ThrowLoop());
+
         // スピードアップ開始
         StartCoroutine(SpeedUpLoop());
     }
@@ -38,7 +50,7 @@ public class ProjectileThrower : MonoBehaviour
         {
             yield return new WaitForSeconds(10f);
             interval /= 1.5f;
-            Debug.Log("スピードアップ！ 現在の速度: " + interval);
+            Debug.Log("スピードアップ！ 現在の間隔: " + interval);
         }
     }
 
