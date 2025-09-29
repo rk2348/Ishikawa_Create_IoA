@@ -15,6 +15,7 @@ public class ScoreManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject); // ©‚±‚ê‚ğ’Ç‰Á
         }
         else
         {
@@ -39,7 +40,7 @@ public class ScoreManager : MonoBehaviour
     {
         if (scoreText != null)
         {
-            scoreText.text = "Ø‚Á‚½”F"+score+"–‡";
+            scoreText.text = "Ø‚Á‚½”F" + score + "–‡";
         }
     }
 }

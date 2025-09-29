@@ -74,18 +74,28 @@ public class GroundHitSceneChanger : MonoBehaviour
                 yield return null;
             }
 
-            // フル表示で保持
             yield return new WaitForSeconds(holdDuration);
-
-            // ここでさらに1秒待つ
             yield return new WaitForSeconds(1f);
 
             targetImage.gameObject.SetActive(false);
         }
 
-        // 演出終了後にシーン遷移
+        // ★ここで3回目に触れた瞬間のスコアを取得
+        int finalScore = 0;
+        if (ScoreManager.Instance != null)
+        {
+            finalScore = ScoreManager.Instance.score;
+            Debug.Log("3回目の衝突時のスコア: " + finalScore);
+        }
+
+        // 必要なら他のスクリプトに渡す場合は static 変数や PlayerPrefs を利用可能
+        PlayerPrefs.SetInt("LastScore", finalScore); // 例：PlayerPrefsに保存
+
+        // シーン遷移
         SceneManager.LoadScene(nextSceneName);
     }
+
+
 
 
 }
