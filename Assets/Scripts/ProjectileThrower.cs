@@ -1,85 +1,67 @@
 using UnityEngine;
 using System.Collections;
 
-public class ProjectileThrower : MonoBehaviour
+public class MoveUIRight : MonoBehaviour
 {
-    [Header("投げる対象")]
-    public GameObject projectilePrefab;   // 投げるアイテムのPrefab
+    public float speed = 600f;          // 移動速度（画面座標単位/秒）
+    public float rotationSpeed = 360f;  // 回転速度（度/秒）
+    public float popScale = 4f;       // 大きくする倍率
+    public float popDuration = 0.4f;    // 大きくして元に戻す時間
 
-    [Header("出現座標設定")]
-    public Vector3 spawnCenter = new Vector3(0f, 3f, 6f); // 出現中心座標
-    public Vector3 spawnRange = new Vector3(5f, 0f, 5f);  // X,Yのランダム幅（Zは固定で奥に投げる）
+    private RectTransform rectTransform;
+    private bool hasPopped = false;     // 一度だけポップさせるフラグ
 
-    [Header("投げる設定")]
-    public float throwSpeed = 10f;        // 投射初速度
-    public float throwAngle = 45f;        // 投げる角度（度数法）
-    public float interval = 4f;           // 投げる間隔（秒）
-
-    [Header("開始ディレイ設定")]
-    public float startDelay = 3f;         // n秒後に投げ開始（インスペクターで変更可）
-
-    private void Start()
+    void Start()
     {
-        // n秒待ってから投げ開始
-        StartCoroutine(StartWithDelay());
+        rectTransform = GetComponent<RectTransform>();
     }
 
-    private IEnumerator StartWithDelay()
+    void Update()
     {
-        yield return new WaitForSeconds(startDelay);
-
-        // 自動投げ開始
-        StartCoroutine(ThrowLoop());
-
-        // スピードアップ開始
-        StartCoroutine(SpeedUpLoop());
-    }
-
-    private IEnumerator ThrowLoop()
-    {
-        while (true)
+        // 左から右に移動してx=0で止まる
+        if (rectTransform.anchoredPosition.x < 0f)
         {
-            Throw();
-            yield return new WaitForSeconds(interval);
+            rectTransform.anchoredPosition += Vector2.right * speed * Time.deltaTime;
         }
-    }
-
-    private IEnumerator SpeedUpLoop()
-    {
-        while (true)
+        else
         {
-            yield return new WaitForSeconds(10f);
-            interval /= 1.5f;
-            Debug.Log("スピードアップ！ 現在の間隔: " + interval);
+            rectTransform.anchoredPosition = new Vector2(0f, rectTransform.anchoredPosition.y);
+
+            // 一度だけポップアニメーションを実行
+            if (!hasPopped)
+            {
+                StartCoroutine(PopAnimation());
+                hasPopped = true;
+            }
         }
+
+        // 回転（Z軸回転でUI回転）
+        rectTransform.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime);
     }
 
-    private void Throw()
+    private IEnumerator PopAnimation()
     {
-        if (projectilePrefab == null) return;
+        Vector3 originalScale = rectTransform.localScale;
+        Vector3 targetScale = originalScale * popScale;
 
-        // ランダムなX,Yのずれを付ける
-        Vector3 randomOffset = new Vector3(
-            Random.Range(-spawnRange.x, spawnRange.x),
-            Random.Range(-spawnRange.y, spawnRange.y),
-            0f // Zは固定
-        );
+        // 大きくする
+        float timer = 0f;
+        while (timer < popDuration)
+        {
+            rectTransform.localScale = Vector3.Lerp(originalScale, targetScale, timer / popDuration);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        rectTransform.localScale = targetScale;
 
-        Vector3 spawnPos = spawnCenter + randomOffset;
-
-        // アイテムを生成
-        GameObject projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
-
-        // Rigidbodyを取得（なければ追加）
-        Rigidbody rb = projectile.GetComponent<Rigidbody>();
-        if (rb == null) rb = projectile.AddComponent<Rigidbody>();
-
-        // 投げる方向（ワールドの -Z 方向へ角度を付ける）
-        Vector3 dir = Vector3.back; // (0,0,-1)
-        Quaternion rot = Quaternion.AngleAxis(throwAngle, Vector3.right);
-        Vector3 throwDir = rot * dir;
-
-        // 速度を直接与える（射法投射）
-        rb.velocity = throwDir.normalized * throwSpeed;
+        // 元の大きさに戻す
+        timer = 0f;
+        while (timer < popDuration)
+        {
+            rectTransform.localScale = Vector3.Lerp(targetScale, originalScale, timer / popDuration);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        rectTransform.localScale = originalScale;
     }
 }
