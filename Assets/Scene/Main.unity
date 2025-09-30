@@ -353,11 +353,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 3314934221360896135, guid: c7c625763abdc62499189849992abbbe, type: 3}
-  spawnCenter: {x: 0, y: 3, z: 6}
-  spawnRange: {x: 5, y: 0, z: 5}
+  spawnCenter: {x: 0, y: 1, z: 10}
+  spawnRange: {x: 1, y: 0.5, z: 0}
   throwSpeed: 10
-  throwAngle: 45
-  interval: 4
+  throwAngle: 25
+  interval: 3
   startDelay: 3
   isActive: 1
 --- !u!4 &107034001
