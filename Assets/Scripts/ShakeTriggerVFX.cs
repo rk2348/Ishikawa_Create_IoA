@@ -5,11 +5,8 @@ public class ShakeTriggerVFX : MonoBehaviour
     [Tooltip("再生するエフェクトのPrefab (ParticleSystem をルートに持つ)")]
     public GameObject effectPrefab;
 
-    [Tooltip("振ったと判定する速度差の閾値 (m/s)")]
+    [Tooltip("振ったと判定する速度の閾値 (m/s)")]
     public float linearVelocityThreshold = 1.0f;
-
-    [Tooltip("振ったと判定する角速度の閾値 (rad/s)")]
-    public float angularVelocityThreshold = 3.0f;
 
     [Tooltip("連続再生を防ぐ最小間隔 (秒)")]
     public float cooldown = 0.25f;
@@ -17,35 +14,41 @@ public class ShakeTriggerVFX : MonoBehaviour
     [Tooltip("エフェクトを親のどこに置くか (true = 子として配置)")]
     public bool attachAsChild = true;
 
-    Rigidbody rb;
-    float lastPlayTime = -999f;
     GameObject pooledEffect;
-
-    void Awake()
-    {
-        rb = GetComponent<Rigidbody>();
-        if (rb == null) rb = gameObject.AddComponent<Rigidbody>(); // 必要なら追加
-    }
+    ParticleSystem pooledPs;
+    Vector3 prevPos;
+    float lastPlayTime = -999f;
 
     void Start()
     {
+        prevPos = transform.position;
+
         if (effectPrefab != null && attachAsChild)
         {
             pooledEffect = Instantiate(effectPrefab, transform);
+            pooledEffect.transform.localPosition = Vector3.zero;
+            pooledEffect.transform.localRotation = Quaternion.identity;
+            pooledEffect.transform.localScale = Vector3.one;
+
+            // 一度アクティブにして ParticleSystem をキャッシュし非アクティブ化
+            pooledEffect.SetActive(true);
+            pooledPs = pooledEffect.GetComponentInChildren<ParticleSystem>();
             pooledEffect.SetActive(false);
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (Time.time - lastPlayTime < cooldown) return;
+        if (Time.time - lastPlayTime < cooldown)
+        {
+            prevPos = transform.position;
+            return;
+        }
 
-        // 線形速度の変化量で判定したい場合は別途差分を使うが、
-        // シンプルに現在の速度/角速度で閾値判定する例:
-        bool linearExceeded = rb.velocity.magnitude >= linearVelocityThreshold;
-        bool angularExceeded = rb.angularVelocity.magnitude >= angularVelocityThreshold;
+        Vector3 vel = (transform.position - prevPos) / Time.fixedDeltaTime;
+        prevPos = transform.position;
 
-        if (linearExceeded || angularExceeded)
+        if (vel.magnitude >= linearVelocityThreshold)
         {
             PlayEffect();
             lastPlayTime = Time.time;
@@ -58,19 +61,37 @@ public class ShakeTriggerVFX : MonoBehaviour
 
         if (attachAsChild && pooledEffect != null)
         {
-            pooledEffect.SetActive(false); // 再生が残っているならリセット
-            var ps = pooledEffect.GetComponentInChildren<ParticleSystem>();
-            if (ps != null) ps.Clear();
-            pooledEffect.SetActive(true);
-            if (ps != null) ps.Play();
+            if (pooledPs != null)
+            {
+                pooledEffect.SetActive(true);
+                pooledPs.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                pooledPs.Clear();
+                pooledPs.Play();
+            }
+            else
+            {
+                pooledEffect.SetActive(true);
+                var ps = pooledEffect.GetComponentInChildren<ParticleSystem>();
+                if (ps != null)
+                {
+                    ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                    ps.Clear();
+                    ps.Play();
+                }
+            }
         }
         else
         {
             var go = Instantiate(effectPrefab, transform.position, Quaternion.identity);
-            go.transform.SetParent(attachAsChild ? transform : null);
+            if (attachAsChild) go.transform.SetParent(transform, worldPositionStays: true);
             var ps = go.GetComponentInChildren<ParticleSystem>();
-            if (ps != null) ps.Play();
-            Destroy(go, 5f); // 適切な寿命に合わせて調整
+            if (ps != null)
+            {
+                ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                ps.Clear();
+                ps.Play();
+            }
+            Destroy(go, 5f);
         }
     }
 }
