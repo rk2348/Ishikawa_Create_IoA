@@ -1,67 +1,86 @@
 using UnityEngine;
 using System.Collections;
 
-public class MoveUIRight : MonoBehaviour
+public class ProjectileThrower : MonoBehaviour
 {
-    public float speed = 600f;          // 移動速度（画面座標単位/秒）
-    public float rotationSpeed = 360f;  // 回転速度（度/秒）
-    public float popScale = 4f;       // 大きくする倍率
-    public float popDuration = 0.4f;    // 大きくして元に戻す時間
+    [Header("投げる対象")]
+    public GameObject projectilePrefab;
 
-    private RectTransform rectTransform;
-    private bool hasPopped = false;     // 一度だけポップさせるフラグ
+    [Header("出現座標設定")]
+    public Vector3 spawnCenter = new Vector3(0f, 3f, 6f);
+    public Vector3 spawnRange = new Vector3(5f, 0f, 5f);
 
-    void Start()
+    [Header("投げる設定")]
+    public float throwSpeed = 10f;
+    public float throwAngle = 45f;
+    public float interval = 4f;
+
+    [Header("開始ディレイ設定")]
+    public float startDelay = 3f;
+
+    [HideInInspector]
+    public bool isActive = true; // 停止用フラグ
+
+    private void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
+        StartCoroutine(StartWithDelay());
     }
 
-    void Update()
+    private IEnumerator StartWithDelay()
     {
-        // 左から右に移動してx=0で止まる
-        if (rectTransform.anchoredPosition.x < 0f)
-        {
-            rectTransform.anchoredPosition += Vector2.right * speed * Time.deltaTime;
-        }
-        else
-        {
-            rectTransform.anchoredPosition = new Vector2(0f, rectTransform.anchoredPosition.y);
+        yield return new WaitForSeconds(startDelay);
 
-            // 一度だけポップアニメーションを実行
-            if (!hasPopped)
+        StartCoroutine(ThrowLoop());
+        StartCoroutine(SpeedUpLoop());
+    }
+
+    private IEnumerator ThrowLoop()
+    {
+        while (true)
+        {
+            if (isActive)
+                Throw();
+            yield return new WaitForSeconds(interval);
+        }
+    }
+
+    private IEnumerator SpeedUpLoop()
+    {
+        while (true)
+        {
+            if (isActive)
             {
-                StartCoroutine(PopAnimation());
-                hasPopped = true;
+                yield return new WaitForSeconds(10f);
+                interval /= 1.5f;
+                Debug.Log("スピードアップ！ 現在の間隔: " + interval);
+            }
+            else
+            {
+                yield return null;
             }
         }
-
-        // 回転（Z軸回転でUI回転）
-        rectTransform.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime);
     }
 
-    private IEnumerator PopAnimation()
+    private void Throw()
     {
-        Vector3 originalScale = rectTransform.localScale;
-        Vector3 targetScale = originalScale * popScale;
+        if (projectilePrefab == null) return;
 
-        // 大きくする
-        float timer = 0f;
-        while (timer < popDuration)
-        {
-            rectTransform.localScale = Vector3.Lerp(originalScale, targetScale, timer / popDuration);
-            timer += Time.deltaTime;
-            yield return null;
-        }
-        rectTransform.localScale = targetScale;
+        Vector3 randomOffset = new Vector3(
+            Random.Range(-spawnRange.x, spawnRange.x),
+            Random.Range(-spawnRange.y, spawnRange.y),
+            0f
+        );
 
-        // 元の大きさに戻す
-        timer = 0f;
-        while (timer < popDuration)
-        {
-            rectTransform.localScale = Vector3.Lerp(targetScale, originalScale, timer / popDuration);
-            timer += Time.deltaTime;
-            yield return null;
-        }
-        rectTransform.localScale = originalScale;
+        Vector3 spawnPos = spawnCenter + randomOffset;
+
+        GameObject projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
+        Rigidbody rb = projectile.GetComponent<Rigidbody>();
+        if (rb == null) rb = projectile.AddComponent<Rigidbody>();
+
+        Vector3 dir = Vector3.back;
+        Quaternion rot = Quaternion.AngleAxis(throwAngle, Vector3.right);
+        Vector3 throwDir = rot * dir;
+
+        rb.velocity = throwDir.normalized * throwSpeed;
     }
 }

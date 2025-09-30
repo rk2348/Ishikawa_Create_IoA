@@ -352,13 +352,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01a2b85c0e6518d46ac22ddc5ac4a544, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 8113076472606645193, guid: 17cb4abf4bbb9d7438c6f65bfce666a2, type: 3}
-  spawnCenter: {x: 0, y: 2, z: 12}
-  spawnRange: {x: 1, y: 0, z: 1.8}
-  throwSpeed: 11
-  throwAngle: 20
-  interval: 2
-  startDelay: 6
+  projectilePrefab: {fileID: 3314934221360896135, guid: c7c625763abdc62499189849992abbbe, type: 3}
+  spawnCenter: {x: 0, y: 3, z: 6}
+  spawnRange: {x: 5, y: 0, z: 5}
+  throwSpeed: 10
+  throwAngle: 45
+  interval: 4
+  startDelay: 3
+  isActive: 1
 --- !u!4 &107034001
 Transform:
   m_ObjectHideFlags: 0
