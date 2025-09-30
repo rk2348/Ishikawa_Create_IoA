@@ -7181,15 +7181,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7611201977328071911, guid: 39706049c667f7d4bbca965b63cd3bec, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 0.8660254
       objectReference: {fileID: 0}
     - target: {fileID: 7611201977328071911, guid: 39706049c667f7d4bbca965b63cd3bec, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.7071068
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7611201977328071911, guid: 39706049c667f7d4bbca965b63cd3bec, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7611201977328071911, guid: 39706049c667f7d4bbca965b63cd3bec, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7611201977328071911, guid: 39706049c667f7d4bbca965b63cd3bec, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7611201977328071911, guid: 39706049c667f7d4bbca965b63cd3bec, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7611201977328071911, guid: 39706049c667f7d4bbca965b63cd3bec, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14239,7 +14255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectPrefab: {fileID: 1324930521}
-  linearVelocityThreshold: 1
+  linearVelocityThreshold: 0.5
   angularVelocityThreshold: 3
   cooldown: 0.25
   attachAsChild: 1
@@ -14265,10 +14281,10 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!1 &3875561976444075108
 GameObject:
