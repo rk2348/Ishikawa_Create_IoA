@@ -241,6 +241,7 @@ GameObject:
   - component: {fileID: 724385792}
   - component: {fileID: 724385791}
   - component: {fileID: 724385790}
+  - component: {fileID: 724385793}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -255,7 +256,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 724385789}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &724385791
 Camera:
   m_ObjectHideFlags: 0
@@ -263,7 +264,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 724385789}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -322,6 +323,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &724385793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724385789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1001 &855849435
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -330,6 +375,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2371250391140417696, guid: e4c00aeb440a5ba4c959855afd646f01, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3267070844922443642, guid: e4c00aeb440a5ba4c959855afd646f01, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1
@@ -381,6 +430,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7752852332470574453, guid: e4c00aeb440a5ba4c959855afd646f01, type: 3}
       insertIndex: -1
       addedObject: {fileID: 855849437}
+    - targetCorrespondingSourceObject: {fileID: 7752852332470574453, guid: e4c00aeb440a5ba4c959855afd646f01, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 855849438}
   m_SourcePrefab: {fileID: 100100000, guid: e4c00aeb440a5ba4c959855afd646f01, type: 3}
 --- !u!1 &855849436 stripped
 GameObject:
@@ -409,6 +461,33 @@ MonoBehaviour:
   sliceVolume: 1
   nextSceneName: Main
   sceneDelay: 3
+--- !u!54 &855849438
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 855849436}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1001 &1000583424
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1584,6 +1663,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2371250391140417696, guid: e4c00aeb440a5ba4c959855afd646f01, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3267070844922443642, guid: e4c00aeb440a5ba4c959855afd646f01, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1
@@ -1637,35 +1720,13 @@ PrefabInstance:
       addedObject: {fileID: 1679201192}
     - targetCorrespondingSourceObject: {fileID: 7752852332470574453, guid: e4c00aeb440a5ba4c959855afd646f01, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1679201191}
+      addedObject: {fileID: 1679201193}
   m_SourcePrefab: {fileID: 100100000, guid: e4c00aeb440a5ba4c959855afd646f01, type: 3}
 --- !u!1 &1679201190 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7752852332470574453, guid: e4c00aeb440a5ba4c959855afd646f01, type: 3}
   m_PrefabInstance: {fileID: 1679201189}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1679201191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1679201190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92ef79a2551f9034c9ee6384ae24c625, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slicedPartAPrefab: {fileID: 0}
-  slicedPartBPrefab: {fileID: 0}
-  bladeTag: Blade
-  forceMultiplier: 2
-  upwardForce: 0.5
-  rotationAngle: 30
-  sliceSound: {fileID: 8300000, guid: a3f8163ba90794141b6a260b1b3cc2b8, type: 3}
-  sliceVolume: 1
-  nextSceneName: Title
-  sceneDelay: 3
 --- !u!114 &1679201192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1684,10 +1745,37 @@ MonoBehaviour:
   forceMultiplier: 2
   upwardForce: 0.5
   rotationAngle: 30
-  sliceSound: {fileID: 0}
+  sliceSound: {fileID: 8300000, guid: a3f8163ba90794141b6a260b1b3cc2b8, type: 3}
   sliceVolume: 1
-  nextSceneName: 
+  nextSceneName: Title
   sceneDelay: 3
+--- !u!54 &1679201193
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1679201190}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!81 &1885927330
 AudioListener:
   m_ObjectHideFlags: 0
