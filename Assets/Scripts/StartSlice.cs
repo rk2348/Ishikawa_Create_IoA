@@ -27,10 +27,6 @@ public class StartSlice : MonoBehaviour
     public string nextSceneName;   // 遷移先シーン
     public float sceneDelay = 3f;  // 3秒後にロード
 
-    [Header("ロードUI")]
-    public GameObject loadingUI;   // InspectorでCanvas等を設定
-    public Slider slider;          // InspectorでSliderを設定
-
     private MeshRenderer meshRenderer;
     private Collider objectCollider;
     private bool sliced = false;
@@ -42,8 +38,6 @@ public class StartSlice : MonoBehaviour
 
         if (meshRenderer != null) meshRenderer.enabled = true;
         if (objectCollider != null) objectCollider.enabled = true;
-
-        if (loadingUI != null) loadingUI.SetActive(false);
     }
 
     void OnCollisionEnter(Collision collision)
@@ -108,22 +102,6 @@ public class StartSlice : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
 
-        if (loadingUI != null)
-            loadingUI.SetActive(true);
-
         AsyncOperation async = SceneManager.LoadSceneAsync(sceneName);
-
-        if (slider != null)
-        {
-            while (!async.isDone)
-            {
-                slider.value = async.progress;
-                yield return null;
-            }
-        }
-        else
-        {
-            yield return async;
-        }
     }
 }

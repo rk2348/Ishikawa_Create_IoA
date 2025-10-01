@@ -1,97 +1,54 @@
 using UnityEngine;
+using UnityEngine.XR;
 
 public class ShakeTriggerVFX : MonoBehaviour
 {
-    [Tooltip("再生するエフェクトのPrefab (ParticleSystem をルートに持つ)")]
     public GameObject effectPrefab;
-
-    [Tooltip("振ったと判定する速度の閾値 (m/s)")]
-    public float linearVelocityThreshold = 1.0f;
-
-    [Tooltip("連続再生を防ぐ最小間隔 (秒)")]
+    public float velocityThreshold = 1.0f;
     public float cooldown = 0.25f;
+    public XRNode controllerNode = XRNode.RightHand; // コントローラ選択
 
-    [Tooltip("エフェクトを親のどこに置くか (true = 子として配置)")]
-    public bool attachAsChild = true;
-
-    GameObject pooledEffect;
-    ParticleSystem pooledPs;
-    Vector3 prevPos;
-    float lastPlayTime = -999f;
+    private float lastPlayTime = -999f;
+    private ParticleSystem ps;
+    private GameObject pooledEffect;
 
     void Start()
     {
-        prevPos = transform.position;
-
-        if (effectPrefab != null && attachAsChild)
+        if (effectPrefab != null)
         {
             pooledEffect = Instantiate(effectPrefab, transform);
-            pooledEffect.transform.localPosition = Vector3.zero;
-            pooledEffect.transform.localRotation = Quaternion.identity;
-            pooledEffect.transform.localScale = Vector3.one;
-
-            // 一度アクティブにして ParticleSystem をキャッシュし非アクティブ化
             pooledEffect.SetActive(true);
-            pooledPs = pooledEffect.GetComponentInChildren<ParticleSystem>();
+            ps = pooledEffect.GetComponentInChildren<ParticleSystem>();
             pooledEffect.SetActive(false);
         }
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        if (Time.time - lastPlayTime < cooldown)
-        {
-            prevPos = transform.position;
-            return;
-        }
+        if (Time.time - lastPlayTime < cooldown) return;
 
-        Vector3 vel = (transform.position - prevPos) / Time.fixedDeltaTime;
-        prevPos = transform.position;
-
-        if (vel.magnitude >= linearVelocityThreshold)
+        InputDevice device = InputDevices.GetDeviceAtXRNode(controllerNode);
+        if (device.TryGetFeatureValue(CommonUsages.deviceVelocity, out Vector3 velocity))
         {
-            PlayEffect();
-            lastPlayTime = Time.time;
+            if (velocity.magnitude >= velocityThreshold)
+            {
+                PlayEffect();
+                lastPlayTime = Time.time;
+            }
         }
     }
 
     void PlayEffect()
     {
-        if (effectPrefab == null) return;
+        if (pooledEffect != null && ps != null)
+        {
+            if (!pooledEffect.activeSelf)
+                pooledEffect.SetActive(true);
 
-        if (attachAsChild && pooledEffect != null)
-        {
-            if (pooledPs != null)
-            {
-                pooledEffect.SetActive(true);
-                pooledPs.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-                pooledPs.Clear();
-                pooledPs.Play();
-            }
-            else
-            {
-                pooledEffect.SetActive(true);
-                var ps = pooledEffect.GetComponentInChildren<ParticleSystem>();
-                if (ps != null)
-                {
-                    ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-                    ps.Clear();
-                    ps.Play();
-                }
-            }
-        }
-        else
-        {
-            var go = Instantiate(effectPrefab, transform.position, Quaternion.identity);
-            if (attachAsChild) go.transform.SetParent(transform, worldPositionStays: true);
-            var ps = go.GetComponentInChildren<ParticleSystem>();
-            if (ps != null)
-            {
-                ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-                ps.Clear();
-                ps.Play();
-            }
-            Destroy(go, 5f);
+            // ほっほっほそき
+            ps.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            ps.Play(true);
         }
     }
+
 }
