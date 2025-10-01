@@ -517,6 +517,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: OVRCameraRig Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 6077503512156503120, guid: 83ef1cd36f890b84da890b03c0545259, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 6077503512156503126, guid: 83ef1cd36f890b84da890b03c0545259, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -557,6 +561,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6077503512167388568, guid: 83ef1cd36f890b84da890b03c0545259, type: 3}
+      propertyPath: useFixedUpdateForTracking
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313232388763421098, guid: 83ef1cd36f890b84da890b03c0545259, type: 3}
+      propertyPath: effectPrefab
+      value: 
+      objectReference: {fileID: 1094178797}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -592,6 +604,11 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -2447776121362496397, guid: f1d3074a136034e498683694560e9f47, type: 3}
+--- !u!1 &1094178797 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3825934424819677335, guid: 83ef1cd36f890b84da890b03c0545259, type: 3}
+  m_PrefabInstance: {fileID: 1094178794}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1213387190
 GameObject:
   m_ObjectHideFlags: 0
