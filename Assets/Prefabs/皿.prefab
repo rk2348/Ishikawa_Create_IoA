@@ -119,13 +119,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed48f916e9b402245876c80def906628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slicedPartATag: Dish1
-  slicedPartBTag: Dish2
-  audioTag: Zangeki
+  slicedPartAPrefab: {fileID: 5612616083132963845, guid: c0fd304dbcfa2a441bf294b8f59a7f7c, type: 3}
+  slicedPartBPrefab: {fileID: 5612616083132963845, guid: a5caf050b04327041b188edfb5083a78, type: 3}
   bladeTag: Blade
   forceMultiplier: 2
   upwardForce: 0.5
   rotationAngle: 30
+  sliceSound: {fileID: 8300000, guid: a3f8163ba90794141b6a260b1b3cc2b8, type: 3}
   sliceVolume: 1
 --- !u!114 &2683411180358898927
 MonoBehaviour:

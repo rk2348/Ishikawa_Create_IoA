@@ -11,6 +11,7 @@ TagManager:
   - Dish1
   - Dish2
   - Zangeki
+  - ScoreText
   layers:
   - Default
   - TransparentFX
