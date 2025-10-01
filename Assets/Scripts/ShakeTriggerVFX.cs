@@ -45,10 +45,11 @@ public class ShakeTriggerVFX : MonoBehaviour
             if (!pooledEffect.activeSelf)
                 pooledEffect.SetActive(true);
 
-            // ‚Ù‚Á‚Ù‚Á‚Ù‚»‚«
-            ps.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            // ˆê“xƒNƒŠƒA‚·‚é
+            ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             ps.Play(true);
         }
     }
+
 
 }
