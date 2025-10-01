@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2683411180358898927}
   m_Layer: 0
   m_Name: "\u76BF"
-  m_TagString: Untagged
+  m_TagString: Cube
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -119,13 +119,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed48f916e9b402245876c80def906628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slicedPartAPrefab: {fileID: 5612616083132963845, guid: c0fd304dbcfa2a441bf294b8f59a7f7c, type: 3}
-  slicedPartBPrefab: {fileID: 5612616083132963845, guid: a05139489ac546a45916f86f8b8fb169, type: 3}
+  slicedPartATag: Dish1
+  slicedPartBTag: Dish2
+  audioTag: Zangeki
   bladeTag: Blade
   forceMultiplier: 2
   upwardForce: 0.5
   rotationAngle: 30
-  sliceSound: {fileID: 8300000, guid: a3f8163ba90794141b6a260b1b3cc2b8, type: 3}
   sliceVolume: 1
 --- !u!114 &2683411180358898927
 MonoBehaviour:

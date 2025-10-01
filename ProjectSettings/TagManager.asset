@@ -8,6 +8,9 @@ TagManager:
   - Blade
   - Ground
   - Cube
+  - Dish1
+  - Dish2
+  - Zangeki
   layers:
   - Default
   - TransparentFX
