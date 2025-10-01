@@ -658,7 +658,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &107034000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -666,7 +666,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 107033999}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01a2b85c0e6518d46ac22ddc5ac4a544, type: 3}
   m_Name: 
@@ -10810,7 +10810,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6d9abf0031a8a4841a11016a690c9eda, type: 2}
+  - {fileID: 2100000, guid: 2e7fa2e78657b1e429472827526c75ea, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13643,8 +13643,6 @@ MonoBehaviour:
   sliceVolume: 1
   nextSceneName: Main
   sceneDelay: 3
-  loadingUI: {fileID: 0}
-  slider: {fileID: 0}
 --- !u!1 &2872398664563398873
 GameObject:
   m_ObjectHideFlags: 0
@@ -14560,9 +14558,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectPrefab: {fileID: 1324930521}
-  linearVelocityThreshold: 0.1
+  velocityThreshold: 1
   cooldown: 0.25
-  attachAsChild: 1
+  controllerNode: 5
 --- !u!1 &3875561976444075108
 GameObject:
   m_ObjectHideFlags: 0
