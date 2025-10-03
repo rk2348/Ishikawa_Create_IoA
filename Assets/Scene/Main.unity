@@ -269,7 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01a2b85c0e6518d46ac22ddc5ac4a544, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 3314934221360896135, guid: c7c625763abdc62499189849992abbbe, type: 3}
+  projectilePrefab: {fileID: 1267373759294858214, guid: 80d355ad085239c4eb8634b8f56f0bb6, type: 3}
   spawnCenter: {x: 0, y: 1, z: 10}
   spawnRange: {x: 1, y: 0.5, z: 0}
   throwSpeed: 10
