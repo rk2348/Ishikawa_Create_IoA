@@ -82,10 +82,7 @@ public class StartSlice : MonoBehaviour
         }
 
         // スコア加算
-        if (ScoreManager.Instance != null)
-        {
-            ScoreManager.Instance.AddScore(1);
-        }
+ 
 
         // 元オブジェクト非表示
         if (meshRenderer != null) meshRenderer.enabled = false;
