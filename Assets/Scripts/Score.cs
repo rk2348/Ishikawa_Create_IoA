@@ -5,10 +5,10 @@ using UnityEngine.SceneManagement; // ← 追加
 public class Score : MonoBehaviour
 {
     [SerializeField, Header("スコア表示テキスト")]
-    public Text scoreText;
+    public Text ScoreText;
 
     [SerializeField, Header("最終スコア表示テキスト")]
-    public Text resulText;
+    public Text ResulText;
 
     private int score = 0;
 
@@ -22,20 +22,20 @@ public class Score : MonoBehaviour
 
     void Start()
     {
-        if (resulText == null) return;
-        if (scoreText == null) return;
+        if (ResulText == null) return;
+        if (ScoreText == null) return;
     }
 
     void Update()
     {
-        if (resulText != null)
+        if (ResulText != null)
         {
-            resulText.text = "最終スコア：" + score.ToString() + "枚";
+            ResulText.text = "最終スコア：" + score.ToString() + "枚";
         }
 
-        if (scoreText != null)
+        if (ScoreText != null)
         {
-            scoreText.text = "切った数: " + score.ToString() + "枚";
+            ScoreText.text = "切った数: " + score.ToString() + "枚";
         }
     }
 
