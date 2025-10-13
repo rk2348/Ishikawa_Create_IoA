@@ -80,13 +80,20 @@ public class GroundHitSceneChanger : MonoBehaviour
             targetImage.gameObject.SetActive(false);
         }
 
-        // ★ 安全にScoreManagerに保存
-        if (ScoreManager.Instance != null)
+        ChangeScene(nextSceneName);
+    }
+
+    public void ChangeScene(string sceneName)
+    {
+        // 現在のスコアを PlayerPrefs に保存してシーン遷移
+        ScoreManager scoreManager = FindObjectOfType<ScoreManager>();
+        if (scoreManager != null)
         {
-            ScoreManager.Instance.SaveScore();
+            PlayerPrefs.SetInt("Score", scoreManager.score);
+            PlayerPrefs.Save();
         }
 
-        // シーン遷移
-        SceneManager.LoadScene(nextSceneName);
+        SceneManager.LoadScene(sceneName);
     }
+
 }

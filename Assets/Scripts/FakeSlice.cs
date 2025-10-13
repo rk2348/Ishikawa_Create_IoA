@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class FakeSlice : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class FakeSlice : MonoBehaviour
     private MeshRenderer meshRenderer;
     private Collider objectCollider;
     private bool sliced = false; // 一度だけ切るフラグ
+
+    [SerializeField] private UnityEvent OnScore;
 
     private void Start()
     {
@@ -75,11 +78,7 @@ public class FakeSlice : MonoBehaviour
             Destroy(audioObject, sliceSound.length); // 再生終了後に破棄
         }
 
-        // スコア加算
-        if (ScoreManager.Instance != null)
-        {
-            ScoreManager.Instance.AddScore(1);
-        }
+        OnScore?.Invoke();
 
         // 元オブジェクト非表示
         if (meshRenderer != null) meshRenderer.enabled = false;

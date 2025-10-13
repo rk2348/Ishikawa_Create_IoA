@@ -3,15 +3,11 @@ using UnityEngine.UI;
 
 public class ResultDisplay : MonoBehaviour
 {
-    public Text resultText;
+    public Text scoreText;
 
-    private void Start()
+    void Start()
     {
-        // PlayerPrefs から取得
-        int finalScore = PlayerPrefs.GetInt("LastScore", 0);
-        if (resultText != null)
-        {
-            resultText.text = "最終スコア：" + finalScore + "枚";
-        }
+        int savedScore = PlayerPrefs.GetInt("Score", 0);
+        scoreText.text = "切った数 : " + savedScore.ToString();
     }
 }

@@ -5,12 +5,9 @@ using UnityEngine.SceneManagement; // ← 追加
 public class Score : MonoBehaviour
 {
     [SerializeField, Header("スコア表示テキスト")]
-    public Text ScoreText;
-
+    public int score = 0;
     [SerializeField, Header("最終スコア表示テキスト")]
-    public Text ResulText;
-
-    private int score = 0;
+    public Text scoreText;
 
     public static Score Instance; // シングルトン化
 
