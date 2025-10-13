@@ -213,7 +213,6 @@ GameObject:
   m_Component:
   - component: {fileID: 352707541}
   - component: {fileID: 352707540}
-  - component: {fileID: 352707542}
   m_Layer: 0
   m_Name: ResultDisplay
   m_TagString: Untagged
@@ -228,12 +227,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 352707539}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db63bf564764fb8409a97214ab167803, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resultText: {fileID: 1037273826}
+  scoreText: {fileID: 1037273826}
 --- !u!4 &352707541
 Transform:
   m_ObjectHideFlags: 0
@@ -249,20 +248,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &352707542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 352707539}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ec1c16a38a833947aeaa3d1bd34f662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scoreText: {fileID: 0}
-  resultText: {fileID: 1037273826}
 --- !u!1 &721296683
 GameObject:
   m_ObjectHideFlags: 0

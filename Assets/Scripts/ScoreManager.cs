@@ -4,20 +4,21 @@ using UnityEngine.UI;
 public class ScoreManager : MonoBehaviour
 {
     public int score = 0;
+
+    [SerializeField,Header("スコア表示用テキスト")]
     public Text scoreText;
 
     void Start()
     {
         // シーンが読み込まれたらスコアをリセット
         score = 0;
-        UpdateScoreText();
     }
 
     public void Water()
     {
-            score++;
-            Debug.Log("Score: " + score);
-            UpdateScoreText();
+        score++;
+        Debug.Log("Score: " + score);
+        UpdateScoreText();
     }
 
     void OnDisable()

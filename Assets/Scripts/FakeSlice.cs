@@ -18,14 +18,18 @@ public class FakeSlice : MonoBehaviour
     public float rotationAngle = 30f;
 
     [Header("切断音")]
-    public AudioClip sliceSound; // Inspectorで設定
+    public AudioClip sliceSound;
     public float sliceVolume = 1f;
 
     private MeshRenderer meshRenderer;
     private Collider objectCollider;
-    private bool sliced = false; // 一度だけ切るフラグ
+    private bool sliced = false;
 
+    // UnityEvent はオプションとして残しておく（他のイベントをつけたい場合用）
     [SerializeField] private UnityEvent OnScore;
+
+    // 自動参照用
+    private ScoreManager scoreManager;
 
     private void Start()
     {
@@ -34,6 +38,13 @@ public class FakeSlice : MonoBehaviour
 
         if (meshRenderer != null) meshRenderer.enabled = true;
         if (objectCollider != null) objectCollider.enabled = true;
+
+        // シーン内から ScoreManager を自動検索
+        scoreManager = FindObjectOfType<ScoreManager>();
+        if (scoreManager == null)
+        {
+            Debug.LogWarning("ScoreManager がシーン内に見つかりません。スコア加算は行われません。");
+        }
     }
 
     void OnCollisionEnter(Collision collision)
@@ -43,14 +54,11 @@ public class FakeSlice : MonoBehaviour
 
         sliced = true;
 
-        // Blade の進行方向を取得
         Vector3 bladeDirection = collision.relativeVelocity.normalized;
 
-        // 切断パーツの回転を計算
         Quaternion rotationA = Quaternion.Euler(bladeDirection * rotationAngle);
         Quaternion rotationB = Quaternion.Euler(-bladeDirection * rotationAngle);
 
-        // パーツA生成
         if (slicedPartAPrefab != null)
         {
             GameObject partA = Instantiate(slicedPartAPrefab, transform.position, transform.rotation * rotationA);
@@ -58,7 +66,6 @@ public class FakeSlice : MonoBehaviour
             rbA.AddForce((bladeDirection + Vector3.up * upwardForce) * forceMultiplier, ForceMode.Impulse);
         }
 
-        // パーツB生成
         if (slicedPartBPrefab != null)
         {
             GameObject partB = Instantiate(slicedPartBPrefab, transform.position, transform.rotation * rotationB);
@@ -66,7 +73,6 @@ public class FakeSlice : MonoBehaviour
             rbB.AddForce((-bladeDirection + Vector3.up * upwardForce) * forceMultiplier, ForceMode.Impulse);
         }
 
-        // 切断音を再生（最後まで鳴らす）
         if (sliceSound != null)
         {
             GameObject audioObject = new GameObject("SliceSound");
@@ -75,13 +81,16 @@ public class FakeSlice : MonoBehaviour
             audioSource.clip = sliceSound;
             audioSource.volume = sliceVolume;
             audioSource.Play();
-            Destroy(audioObject, sliceSound.length); // 再生終了後に破棄
+            Destroy(audioObject, sliceSound.length);
         }
 
-        OnScore?.Invoke();
-
-        // 元オブジェクト非表示
         if (meshRenderer != null) meshRenderer.enabled = false;
         if (objectCollider != null) objectCollider.enabled = false;
+
+        // スコア加算を自動呼び出し
+        scoreManager?.Water();
+
+        // UnityEventも併用できるように残す
+        OnScore?.Invoke();
     }
 }

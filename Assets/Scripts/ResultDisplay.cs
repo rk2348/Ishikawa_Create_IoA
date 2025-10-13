@@ -8,6 +8,6 @@ public class ResultDisplay : MonoBehaviour
     void Start()
     {
         int savedScore = PlayerPrefs.GetInt("Score", 0);
-        scoreText.text = "Ø‚Á‚½” : " + savedScore.ToString();
+        scoreText.text = "Ø‚Á‚½” : " + savedScore.ToString() +"–‡";
     }
 }
