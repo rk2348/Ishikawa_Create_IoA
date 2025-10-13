@@ -17,7 +17,15 @@ public class ResultDisplay : MonoBehaviour
     void Start()
     {
         int savedScore = PlayerPrefs.GetInt("Score", 0);
-        scoreText.text = "êÿÇ¡ÇΩêî : " + savedScore.ToString() +"ñá";
-        Text.text =savedScore.ToString();
+
+        if (scoreText != null)
+        {
+            scoreText.text = "êÿÇ¡ÇΩêî : " + savedScore.ToString() + "ñá";
+        }
+
+        if (Text != null)
+        {
+            Text.text = savedScore.ToString();
+        }
     }
 }

@@ -2968,40 +2968,10 @@ public class OVRManager : MonoBehaviour, OVRMixedRealityCaptureConfiguration
 
     private void OnDestroy()
     {
-        Debug.Log("[OVRManager] OnDestroy");
 #if UNITY_EDITOR
         OVRPlugin.SetLogCallback2(null);
 #endif
         OVRManagerinitialized = false;
-    }
-
-    private void OnApplicationPause(bool pause)
-    {
-        if (pause)
-        {
-            Debug.Log("[OVRManager] OnApplicationPause(true)");
-        }
-        else
-        {
-            Debug.Log("[OVRManager] OnApplicationPause(false)");
-        }
-    }
-
-    private void OnApplicationFocus(bool focus)
-    {
-        if (focus)
-        {
-            Debug.Log("[OVRManager] OnApplicationFocus(true)");
-        }
-        else
-        {
-            Debug.Log("[OVRManager] OnApplicationFocus(false)");
-        }
-    }
-
-    private void OnApplicationQuit()
-    {
-        Debug.Log("[OVRManager] OnApplicationQuit");
     }
 
     #endregion // Unity Messages
@@ -3108,7 +3078,6 @@ public class OVRManager : MonoBehaviour, OVRMixedRealityCaptureConfiguration
                 if (!staticPrevEnableMixedRealityCapture)
                 {
                     OVRPlugin.SendEvent("mixed_reality_capture", "activated");
-                    Debug.Log("MixedRealityCapture: activate");
                     staticPrevEnableMixedRealityCapture = true;
                 }
 
@@ -3117,13 +3086,11 @@ public class OVRManager : MonoBehaviour, OVRMixedRealityCaptureConfiguration
             }
             else if (!suppressDisableMixedRealityBecauseOfNoMainCameraWarning)
             {
-                Debug.LogWarning("Main Camera is not set, Mixed Reality disabled");
                 suppressDisableMixedRealityBecauseOfNoMainCameraWarning = true;
             }
         }
         else if (staticPrevEnableMixedRealityCapture)
         {
-            Debug.Log("MixedRealityCapture: deactivate");
             staticPrevEnableMixedRealityCapture = false;
             OVRMixedReality.Cleanup();
         }

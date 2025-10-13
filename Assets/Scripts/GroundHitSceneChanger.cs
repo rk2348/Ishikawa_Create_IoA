@@ -22,6 +22,8 @@ public class GroundHitSceneChanger : MonoBehaviour
 
     private bool hasStarted = false;
 
+    public GameObject throwManager;
+
     private void Start()
     {
         if (targetImage != null)
@@ -38,6 +40,8 @@ public class GroundHitSceneChanger : MonoBehaviour
     {
         if (collision.gameObject.CompareTag(groundTag))
         {
+            Debug.Log("Hit the ground!");
+
             hitCount++;
 
             if (!hasStarted && hitCount >= 3)
@@ -75,6 +79,7 @@ public class GroundHitSceneChanger : MonoBehaviour
 
                 yield return null;
             }
+            throwManager.SetActive(false);
 
             yield return new WaitForSeconds(holdDuration);
             targetImage.gameObject.SetActive(false);

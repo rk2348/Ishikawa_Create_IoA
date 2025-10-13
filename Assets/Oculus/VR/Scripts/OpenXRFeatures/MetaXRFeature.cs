@@ -1,23 +1,3 @@
-/*
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- * All rights reserved.
- *
- * Licensed under the Oculus SDK License Agreement (the "License");
- * you may not use the Oculus SDK except in compliance with the License,
- * which is provided at the time of installation or download, or which
- * otherwise accompanies this software in either electronic or hard copy form.
- *
- * You may obtain a copy of the License at
- *
- * https://developer.oculus.com/licenses/oculussdk/
- *
- * Unless required by applicable law or agreed to in writing, the Oculus SDK
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 #if USING_XR_SDK_OPENXR
 using System;
 using System.Runtime.InteropServices;
@@ -112,9 +92,6 @@ namespace Meta.XR
         {
             OVRPlugin.UnityOpenXR.Enabled = true;
 
-            Debug.Log($"[MetaXRFeature] HookGetInstanceProcAddr: {func}");
-
-            Debug.Log($"[MetaXRFeature] SetClientVersion");
             OVRPlugin.UnityOpenXR.SetClientVersion();
 
             return OVRPlugin.UnityOpenXR.HookGetInstanceProcAddr(func);
@@ -136,7 +113,7 @@ namespace Meta.XR
 
             if (isMetaHeadsetIdSupported)
             {
-                Debug.Log("[MetaXRFeature] OpenXR runtime supports XR_META_headset_id extension. MetaXRFeature is enabled.");
+                
             }
             else
             {
@@ -146,7 +123,6 @@ namespace Meta.XR
                 if (!runtimeNameLowercase.Contains("meta") && !runtimeNameLowercase.Contains("oculus"))
                 {
                     // disable MetaXRFeature from non-Oculus/Meta OpenXR runtimes
-                    Debug.LogWarningFormat("[MetaXRFeature] MetaXRFeature is disabled on non-Oculus/Meta OpenXR Runtime. Runtime name: {0}", OpenXRRuntime.name);
                     return false;
                 }
             }
@@ -156,7 +132,7 @@ namespace Meta.XR
             bool result = OVRPlugin.UnityOpenXR.OnInstanceCreate(xrInstance);
             if (!result)
             {
-                Debug.LogWarning("[MetaXRFeature] OnInstanceCreate returned an error. If you are using Quest Link, please verify if it's started.");
+                
             }
             return result;
         }
@@ -165,7 +141,6 @@ namespace Meta.XR
         protected override void OnInstanceDestroy(ulong xrInstance)
         {
             // here's one way you can grab the instance
-            Debug.Log($"[MetaXRFeature] OnInstanceDestroy: {xrInstance}");
             OVRPlugin.UnityOpenXR.OnInstanceDestroy(xrInstance);
         }
 
@@ -173,49 +148,42 @@ namespace Meta.XR
         protected override void OnSessionCreate(ulong xrSession)
         {
             // here's one way you can grab the session
-            Debug.Log($"[MetaXRFeature] OnSessionCreate: {xrSession}");
             OVRPlugin.UnityOpenXR.OnSessionCreate(xrSession);
         }
 
         /// <inheritdoc />
         protected override void OnAppSpaceChange(ulong xrSpace)
         {
-            Debug.Log($"[MetaXRFeature] OnAppSpaceChange: {xrSpace}");
             OVRPlugin.UnityOpenXR.OnAppSpaceChange(xrSpace);
         }
 
         /// <inheritdoc />
         protected override void OnSessionStateChange(int oldState, int newState)
         {
-            Debug.Log($"[MetaXRFeature] OnSessionStateChange: {oldState} -> {newState}");
             OVRPlugin.UnityOpenXR.OnSessionStateChange(oldState, newState);
         }
 
         /// <inheritdoc />
         protected override void OnSessionBegin(ulong xrSession)
         {
-            Debug.Log($"[MetaXRFeature] OnSessionBegin: {xrSession}");
             OVRPlugin.UnityOpenXR.OnSessionBegin(xrSession);
         }
 
         /// <inheritdoc />
         protected override void OnSessionEnd(ulong xrSession)
         {
-            Debug.Log($"[MetaXRFeature] OnSessionEnd: {xrSession}");
             OVRPlugin.UnityOpenXR.OnSessionEnd(xrSession);
         }
 
         /// <inheritdoc />
         protected override void OnSessionExiting(ulong xrSession)
         {
-            Debug.Log($"[MetaXRFeature] OnSessionExiting: {xrSession}");
             OVRPlugin.UnityOpenXR.OnSessionExiting(xrSession);
         }
 
         /// <inheritdoc />
         protected override void OnSessionDestroy(ulong xrSession)
         {
-            Debug.Log($"[MetaXRFeature] OnSessionDestroy: {xrSession}");
             OVRPlugin.UnityOpenXR.OnSessionDestroy(xrSession);
         }
 
