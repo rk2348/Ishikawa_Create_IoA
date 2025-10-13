@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -8,16 +9,20 @@ public class ScoreManager : MonoBehaviour
     [SerializeField,Header("スコア表示用テキスト")]
     public Text scoreText;
 
+    public TextMeshProUGUI Text;
+
     void Start()
     {
         // シーンが読み込まれたらスコアをリセット
-        score = 0;
+        score =0;
+
+        if (scoreText != null) return;
+        if(Text != null)return;
     }
 
     public void Water()
     {
         score++;
-        Debug.Log("Score: " + score);
         UpdateScoreText();
     }
 
@@ -33,6 +38,11 @@ public class ScoreManager : MonoBehaviour
         if (scoreText != null)
         {
             scoreText.text = "切った数：" + score.ToString()+"枚";
+        }
+
+        if(Text != null)
+        {
+            Text.text = score.ToString();
         }
     }
 }
